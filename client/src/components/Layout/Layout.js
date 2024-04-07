@@ -1,9 +1,10 @@
 import React from "react";
 import Footer from "./Footer";
 import Header from "./Header";
-import { ToastContainer} from 'react-toastify'; // Import Toaster instead of ToastContainer
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from 'react-helmet';
-import "react-toastify/dist/ReactToastify.css";
+
 
 const Layout = ({ children, title, description, keywords, author }) => {
   return (
