@@ -40,6 +40,7 @@ function App() {
         <Route path="/policy" element={<Policy />} />
         <Route path="*" element={<Pagenotfound />} />
     </Routes>
+    
     </>
   );
 
