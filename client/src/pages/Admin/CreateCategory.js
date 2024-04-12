@@ -117,8 +117,7 @@ const CreateCategory = () => {
                         <td>
                           <button
                             className="btn btn-primary ms-2"
-                            onClick={() => {setVisible(true) ; setUpdatedName(c.name)
-                            
+                            onClick={() => {
                               setVisible(true);
                               setUpdatedName(c.name);
                               setSelected(c);
@@ -150,8 +149,8 @@ const CreateCategory = () => {
                 value={updatedName}
                 setValue={setUpdatedName}
                 handleSubmit={handleUpdate}
-                />
-                </Modal>
+              />
+            </Modal>
           </div>
         </div>
       </div>
