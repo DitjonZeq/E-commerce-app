@@ -110,16 +110,16 @@ const HomePage = () => {
     <Layout title={"ALl Products - Best offers "}>
       {/* banner image */}
       <img
-        src="/images/banner.png"
+        src="/images/baner.jpg"
         className="banner-img"
         alt="bannerimage"
         width={"100%"}
       />
       {/* banner image */}
-      <div className="container-fluid row mt-3 home-page">
+      <div className="  container-fluid row mt-3 home-page">
         <div className="col-md-3 filters">
-          <h4 className="text-center">Filter By Category</h4>
-          <div className="d-flex flex-column">
+          <h4 className="text-center ">Filter By Category</h4>
+          <div className="d-flex flex-column ">
             {categories?.map((c) => (
               <Checkbox
                 key={c._id}
@@ -130,8 +130,8 @@ const HomePage = () => {
             ))}
           </div>
           {/* price filter */}
-          <h4 className="text-center mt-4">Filter By Price</h4>
-          <div className="d-flex flex-column">
+          <h4 className="text-center mt-4 ">Filter By Price</h4>
+          <div className="d-flex flex-column ">
             <Radio.Group onChange={(e) => setRadio(e.target.value)}>
               {Prices?.map((p) => (
                 <div key={p._id}>
@@ -150,7 +150,7 @@ const HomePage = () => {
           </div>
         </div>
         <div className="col-md-9 ">
-          <h1 className="text-center">All Products</h1>
+          <h1 className="text-center ">All Products</h1>
           <div className="d-flex flex-wrap">
             {products?.map((p) => (
               <div className="card m-2" key={p._id}>

@@ -4,6 +4,7 @@ import orderModel from "../models/orderModel.js";
 import { comparePassword, hashPassword } from "./../helpers/authHelper.js";
 import JWT from "jsonwebtoken";
 
+
 export const registerController = async (req, res) => {
   try {
     const { name, email, password, phone, address, answer } = req.body;
@@ -216,21 +217,23 @@ export const getOrdersController = async (req, res) => {
     });
   }
 };
-//orders
 export const getAllOrdersController = async (req, res) => {
   try {
+    // Fetch all orders and populate related fields
     const orders = await orderModel
-      .find({})
-      .populate("products", "-photo")
-      .populate("buyer", "name")
-      .sort({ createdAt: "-1" });
+      .find()
+      .populate('products', '-photo')
+      .populate('buyer', 'name');
+     
+    // Send the orders as a JSON response
     res.json(orders);
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
+    console.error('Error while getting orders:', error);
+    // Send a 500 Internal Server Error response with the error details
+    res.status(500).json({
       success: false,
-      message: "Error WHile Geting Orders",
-      error,
+      message: 'Error while getting orders',
+      error: error.message // Send the error message for better clarity
     });
   }
 };
