@@ -78,7 +78,7 @@ const CreateSubCategory = () => {
         `/api/v1/subcategory/update-subcategory/${selectedSubCategory._id}`,
         { 
           subname: updatedName,
-          category: selectedCategory
+          category: selectedCategory._id
         }
       );
       if (data?.success) {
@@ -170,7 +170,7 @@ const CreateSubCategory = () => {
                           onClick={() => {
                             setVisible(true);
                             setUpdatedName(s.subname);
-                            setSelectedCategory(s.category._id);
+                            setSelectedCategory(s.category);
                             setSelectedSubCategory(s);
                           }}
                         >
