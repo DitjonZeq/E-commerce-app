@@ -19,7 +19,7 @@ var gateway = new braintree.BraintreeGateway({
 
 export const createProductController = async (req, res) => {
   try {
-    const { name, description, price, category, quantity, shipping } =
+    const { name, description, price, category,subcategory, quantity, shipping } =
       req.fields;
     const { photo } = req.files;
     //alidation
@@ -32,6 +32,8 @@ export const createProductController = async (req, res) => {
         return res.status(500).send({ error: "Price is Required" });
       case !category:
         return res.status(500).send({ error: "Category is Required" });
+        case !subcategory:
+        return res.status(500).send({ error: "SubCategory is Required" });
       case !quantity:
         return res.status(500).send({ error: "Quantity is Required" });
       case photo && photo.size > 1000000:
@@ -67,6 +69,7 @@ export const getProductController = async (req, res) => {
     const products = await productModel
       .find({})
       .populate("category")
+      .populate("subcategory")
       .select("-photo")
       .limit(12)
       .sort({ createdAt: -1 });
@@ -91,7 +94,8 @@ export const getSingleProductController = async (req, res) => {
     const product = await productModel
       .findOne({ slug: req.params.slug })
       .select("-photo")
-      .populate("category");
+      .populate("category")
+      .populate("subcategory");
     res.status(200).send({
       success: true,
       message: "Single Product Fetched",
@@ -146,7 +150,7 @@ export const deleteProductController = async (req, res) => {
 //upate producta
 export const updateProductController = async (req, res) => {
   try {
-    const { name, description, price, category, quantity, shipping } =
+    const { name, description, price, category, subcategory, quantity, shipping } =
       req.fields;
     const { photo } = req.files;
     //alidation
@@ -159,6 +163,8 @@ export const updateProductController = async (req, res) => {
         return res.status(500).send({ error: "Price is Required" });
       case !category:
         return res.status(500).send({ error: "Category is Required" });
+        case !subcategory:
+        return res.status(500).send({ error: "SubCategory is Required" });
       case !quantity:
         return res.status(500).send({ error: "Quantity is Required" });
       case photo && photo.size > 1000000:
