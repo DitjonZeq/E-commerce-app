@@ -13,6 +13,7 @@ import {
   productPhotoController,
   realtedProductController,
   searchProductController,
+  productFiltersSubController ,
   updateProductController,
 } from "../controllers/productController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
@@ -51,6 +52,9 @@ router.delete("/delete-product/:pid", deleteProductController);
 
 //filter product
 router.post("/product-filters", productFiltersController);
+
+//filter subcat product
+router.post("/productsub-filters",productFiltersSubController );
 
 //product count
 router.get("/product-count", productCountController);

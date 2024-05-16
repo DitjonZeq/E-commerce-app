@@ -62,6 +62,7 @@ const ProductDetails = () => {
             })}
           </h6>
           <h6>Category : {product?.category?.name}</h6>
+          <h6>SubCategory : {product?.subcategory?.subname}</h6>
           <button class="btn btn-secondary ms-1">ADD TO CART</button>
         </div>
       </div>

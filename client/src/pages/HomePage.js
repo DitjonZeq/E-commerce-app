@@ -14,6 +14,7 @@ const HomePage = () => {
   const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [subcategories, setSubCategories] = useState([]);
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
   const [total, setTotal] = useState(0);
@@ -36,6 +37,23 @@ const HomePage = () => {
     getAllCategory();
     getTotal();
   }, []);
+
+  // Fetch all subcategories
+  const getAllSubCategory = async () => {
+    try {
+      const { data } = await axios.get("/api/v1/subcategory/get-subcategory");
+      if (data?.success) {
+        setSubCategories(data?.subcategory);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllSubCategory();
+  }, []);
+
   //get products
   const getAllProducts = async () => {
     try {
@@ -94,6 +112,37 @@ const HomePage = () => {
     if (checked.length || radio.length) filterProduct();
   }, [checked, radio]);
 
+   // filter by subcat
+   const handleFilterC = (value, id) => {
+    let all = [...checked];
+    if (value) {
+      all.push(id);
+    } else {
+      all = all.filter((s) => s !== id);
+    }
+    setChecked(all);
+  };
+  useEffect(() => {
+    if (!checked.length || !radio.length) getAllProducts();
+  }, [checked.length, radio.length]);
+
+  useEffect(() => {
+    if (checked.length || radio.length) filterProductC();
+  }, [checked, radio]);
+
+  //get filterd product
+  const filterProductC = async () => {
+    try {
+      const { data } = await axios.post("/api/v1/product/productsub-filters", {
+        checked,
+        radio,
+      });
+      setProducts(data?.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   //get filterd product
   const filterProduct = async () => {
     try {
@@ -129,6 +178,21 @@ const HomePage = () => {
               </Checkbox>
             ))}
           </div>
+
+
+          {/* Subcategory filters */}
+          <h4 className="text-center mt-4 ">Filter By Subcategory</h4>
+          <div className="d-flex flex-column ">
+            {subcategories?.map((s) => (
+              <Checkbox
+                key={s._id}
+                onChange={(e) => handleFilterC(e.target.checked, s._id)}
+              >
+                {s.subname}
+              </Checkbox>
+            ))}
+          </div>
+
           {/* price filter */}
           <h4 className="text-center mt-4 ">Filter By Price</h4>
           <div className="d-flex flex-column ">

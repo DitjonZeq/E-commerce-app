@@ -10,16 +10,18 @@ const { Option } = Select;
 const CreateProduct = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
+  const [subcategory, setSubcategory] = useState("");
   const [quantity, setQuantity] = useState("");
   const [shipping, setShipping] = useState("");
   const [photo, setPhoto] = useState("");
 
-  //get all category
-  const getAllCategory = async () => {
+  // Get all categories and subcategories
+  const getAllCategories = async () => {
     try {
       const { data } = await axios.get("/api/v1/category/get-category");
       if (data?.success) {
@@ -27,15 +29,28 @@ const CreateProduct = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something wwent wrong in getting catgeory");
+      toast.error("Something went wrong in getting categories");
+    }
+  };
+
+  const getAllSubCategory = async () => {
+    try {
+      const { data } = await axios.get("/api/v1/subcategory/get-subcategory");
+      if (data?.success) {
+        setSubcategories(data?.subcategory);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong in getting subcategories");
     }
   };
 
   useEffect(() => {
-    getAllCategory();
+    getAllCategories();
+    getAllSubCategory();
   }, []);
 
-  //create product function
+  // Function to handle creating product
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
@@ -46,10 +61,8 @@ const CreateProduct = () => {
       productData.append("quantity", quantity);
       productData.append("photo", photo);
       productData.append("category", category);
-      const { data } = axios.post(
-        "/api/v1/product/create-product",
-        productData
-      );
+      productData.append("subcategory", subcategory);
+      const { data } = axios.post("/api/v1/product/create-product", productData);
       if (data?.success) {
         toast.error(data?.message);
       } else {
@@ -58,13 +71,13 @@ const CreateProduct = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("something went wrong");
+      toast.error("Something went wrong");
     }
   };
 
   return (
     <Layout title={"Dashboard - Create Product"}>
-      <div className=" container-fluid m-3 p-3 dashboard">
+      <div className="container-fluid m-3 p-3 dashboard">
         <div className="row">
           <div className="col-md-3">
             <AdminMenu />
@@ -80,11 +93,29 @@ const CreateProduct = () => {
                 className="form-select mb-3"
                 onChange={(value) => {
                   setCategory(value);
+                  
                 }}
               >
                 {categories?.map((c) => (
                   <Option key={c._id} value={c._id}>
                     {c.name}
+                  </Option>
+                ))}
+              </Select>
+              {/* Display subcategories */}
+              <Select
+                bordered={false}
+                placeholder="Select a subcategory"
+                size="large"
+                showSearch
+                className="form-select mb-3"
+                onChange={(value) => {
+                  setSubcategory(value);
+                }}
+              >
+                {subcategories?.map((s) => (
+                  <Option key={s._id} value={s._id}>
+                    {s.subname}
                   </Option>
                 ))}
               </Select>

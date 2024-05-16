@@ -11,10 +11,12 @@ const UpdateProduct = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [categories, setCategories] = useState([]);
+  const [subcategories, setSubCategories] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
+  const [subcategory, setSubCategory] = useState("");
   const [quantity, setQuantity] = useState("");
   const [shipping, setShipping] = useState("");
   const [photo, setPhoto] = useState("");
@@ -34,6 +36,7 @@ const UpdateProduct = () => {
       setQuantity(data.product.quantity);
       setShipping(data.product.shipping);
       setCategory(data.product.category._id);
+      setSubCategory(data.product.subcategory._id);
     } catch (error) {
       console.log(error);
     }
@@ -59,6 +62,23 @@ const UpdateProduct = () => {
     getAllCategory();
   }, []);
 
+   //get all category
+   const getAllSubCategory = async () => {
+    try {
+      const { data } = await axios.get("/api/v1/subcategory/get-subcategory");
+      if (data?.success) {
+        setSubCategories(data?.subcategory);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something wwent wrong in getting catgeory");
+    }
+  };
+
+  useEffect(() => {
+    getAllSubCategory();
+  }, []);
+
   //create product function
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -70,6 +90,7 @@ const UpdateProduct = () => {
       productData.append("quantity", quantity);
       photo && productData.append("photo", photo);
       productData.append("category", category);
+      productData.append("subcategory", subcategory);
       const { data } = axios.put(
         `/api/v1/product/update-product/${id}`,
         productData
@@ -124,6 +145,23 @@ const UpdateProduct = () => {
                 {categories?.map((c) => (
                   <Option key={c._id} value={c._id}>
                     {c.name}
+                  </Option>
+                ))}
+              </Select>
+              <Select
+                bordered={false}
+                placeholder="Select a subcategory"
+                size="large"
+                showSearch
+                className="form-select mb-3"
+                onChange={(value) => {
+                  setSubCategory(value);
+                }}
+                value={subcategory}
+              >
+                {subcategories?.map((s) => (
+                  <Option key={s._id} value={s._id}>
+                    {s.subname}
                   </Option>
                 ))}
               </Select>

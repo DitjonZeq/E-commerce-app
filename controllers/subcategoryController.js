@@ -7,9 +7,7 @@ export const createSubCategoryController = async (req, res) => {
     if (!subname) {
       return res.status(401).send({ message: "SubName is required" });
     }
-    if (!category) { 
-      return res.status(401).send({ message: "Category is required" });
-    }
+   
 
     const existingSubCategory = await subcategoryModel.findOne({ subname });
 
@@ -22,7 +20,6 @@ export const createSubCategoryController = async (req, res) => {
 
     const subcategory = await new subcategoryModel({
       subname,
-      category, // Include category in the subcategory creation
       slug: slugify(subname),
     }).save();
 
@@ -44,7 +41,7 @@ export const createSubCategoryController = async (req, res) => {
 //update category
 export const updateSubCategoryController = async (req, res) => {
   try {
-    const { subname, category } = req.body; // Destructure subname and category from req.body
+    const { subname } = req.body; // Destructure subname and category from req.body
     const { id } = req.params;
 
     // Check if subname is provided and it's a string
@@ -54,7 +51,7 @@ export const updateSubCategoryController = async (req, res) => {
 
     const subcategory = await subcategoryModel.findByIdAndUpdate(
       id,
-      { subname, category, slug: slugify(subname) }, // Update subname, category, and slug
+      { subname, slug: slugify(subname) }, // Update subname, category, and slug
       { new: true }
     );
 

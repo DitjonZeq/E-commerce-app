@@ -10,10 +10,10 @@ import SubCategoryForm from "../../components/Form/SubCategoryForm";
 const { Option } = Select;
 
 const CreateSubCategory = () => {
-  const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
+
+    const [subCategories, setSubCategories] = useState([]);
   const [subname, setSubName] = useState("");
-  const [category, setCategory] = useState("");
+  
   const [visible, setVisible] = useState(false);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [updatedName, setUpdatedName] = useState("");
@@ -25,11 +25,11 @@ const CreateSubCategory = () => {
     try {
       const { data } = await axios.post("/api/v1/subcategory/create-subcategory", {
         subname,
-        category
+    
       });
       if (data?.success) {
         toast.success(`${subname} is created`);
-        getAllCategory();
+    
         getAllSubCategory();
       } else {
         toast.error(data.message);
@@ -41,22 +41,7 @@ const CreateSubCategory = () => {
   };
 
 
-  const getAllCategory = async () => {
-    try {
-      const { data } = await axios.get("/api/v1/category/get-category");
-      if (data?.success) {
-        setCategories(data?.category);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong in getting categories");
-    }
-  };
-
-  useEffect(() => {
-    getAllCategory();
-  }, []);
-
+ 
   const getAllSubCategory = async () => {
     try {
       const { data } = await axios.get("/api/v1/subcategory/get-subcategory");
@@ -87,9 +72,9 @@ const CreateSubCategory = () => {
         toast.success(`${updatedName} is updated`);
         setSelectedSubCategory(null);
         setUpdatedName("");
-        setSelectedCategory("");
+
         setVisible(false);
-        getAllCategory();
+     
         getAllSubCategory();
       } else {
         toast.error(data.message);
@@ -107,7 +92,7 @@ const CreateSubCategory = () => {
       );
       if (data.success) {
         toast.success(`Subcategory is deleted`);
-        getAllCategory();
+    
         getAllSubCategory();
       } else {
         toast.error(data.message);
@@ -133,28 +118,13 @@ const CreateSubCategory = () => {
           <div className="col-md-9">
             <h1>Manage Subcategories</h1>
               <div className="p-3 w-50">
-              <Select
-                bordered={false}
-                placeholder="Select a category"
-                size="large"
-                showSearch
-                className="form-select mb-3"
-                onChange={(value) => {
-                  setCategory(value);
-                }}
-              >
-                {categories?.map((c) => (
-                  <Option key={c._id} value={c._id}>
-                    {c.name}
-                  </Option>
-                ))}
-              </Select>
+            
 
               <SubCategoryForm
                 handleSubmit={handleSubmit}
                 value={subname}
                 setValue={setSubName}
-                categories={categories}
+      
               />
             </div>
             <div className="w-100">
@@ -168,7 +138,6 @@ const CreateSubCategory = () => {
               <table className="table text-black">
                 <thead>
                   <tr>
-                    <th scope="col">Category</th>
                     <th scope="col">Subcategory</th>
                     <th scope="col">Actions</th>
                   </tr>
@@ -176,7 +145,6 @@ const CreateSubCategory = () => {
                 <tbody>
                   {filteredSubCategories.map((s) => (
                     <tr key={s._id}>
-                      <td>{categories.find(c => c._id === s.category)?.name}</td>
                       <td>{s.subname}</td>
                       <td>
                         <button
@@ -210,26 +178,12 @@ const CreateSubCategory = () => {
               visible={visible}
             >
               <div className="p-3">
-                <Select
-                  bordered={false}
-                  placeholder="Select a category"
-                  size="large"
-                  showSearch
-                  className="form-select mb-3"
-                  onChange={(value) => setSelectedCategory(value)}
-                  value={selectedCategory}
-                >
-                  {categories?.map((c) => (
-                    <Option key={c._id} value={c._id}>
-                      {c.name}
-                    </Option>
-                  ))}
-                </Select>
+               
                 <SubCategoryForm
                   value={updatedName}
                   setValue={setUpdatedName}
                   handleSubmit={handleUpdate}
-                  categories={categories}
+                 s
                 />
               </div>
             </Modal>
