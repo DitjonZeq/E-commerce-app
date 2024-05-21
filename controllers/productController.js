@@ -1,5 +1,6 @@
 import productModel from "../models/productModel.js";
 import categoryModel from "../models/categoryModel.js";
+import subcategoryModel from "../models/subcategoryModel.js";
 import orderModel from "../models/orderModel.js";
 
 import fs from "fs";
@@ -355,6 +356,27 @@ export const productCategoryController = async (req, res) => {
     });
   }
 };
+
+// get prdocyst by subcatgory
+export const productSubCategoryController = async (req, res) => {
+  try {
+    const subcategory = await subcategoryModel.findOne({ slug: req.params.slug });
+    const products = await productModel.find({ subcategory }).populate("subcategory");
+    res.status(200).send({
+      success: true,
+      subcategory,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      error,
+      message: "Error While Getting products",
+    });
+  }
+};
+
 
 //payment gateway api
 //token
