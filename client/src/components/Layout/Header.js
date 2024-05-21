@@ -4,6 +4,7 @@ import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import SearchInput from "../Form/SearchInput";
 import useCategory from "../../hooks/useCategory";
+import useSubCategory from "../../hooks/useSubCategory";
 import { useCart } from "../../context/cart";
 import { Badge } from "antd";
 
@@ -11,6 +12,7 @@ const Header = () => {
   const [auth, setAuth] = useAuth();
   const [cart] = useCart();
   const categories = useCategory();
+  const subcategories = useSubCategory();
   const handleLogout = () => {
     setAuth({
       ...auth,
@@ -67,6 +69,33 @@ const Header = () => {
                         to={`/category/${c.slug}`}
                       >
                         {c.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+
+              <li className="nav-item dropdown">
+                <Link
+                  className="nav-link dropdown-toggle"
+                  to={"/subcategories"}
+                  data-bs-toggle="dropdown"
+                >
+                  SubCategories
+                </Link>
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link className="dropdown-item" to={"/subcategories"}>
+                      All SubCategories
+                    </Link>
+                  </li>
+                  {subcategories?.map((s) => (
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        to={`/subcategory/${s.slug}`}
+                      >
+                        {s.subname}
                       </Link>
                     </li>
                   ))}
