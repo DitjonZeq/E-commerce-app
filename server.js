@@ -6,14 +6,34 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoute.js";
 import categoryRoutes from "./routes/categoryRoutes.js"; 
 import productRoutes from "./routes/productRoutes.js";
+import newsRoutes from "./routes/newsRoutes.js";
 import subcategoryRoutes from "./routes/subcategoryRoutes.js"; 
 import cors from "cors";
+import mysql from 'mysql';
 
 //configure env
 dotenv.config();
 
 //databse config
 connectDB();
+
+// Create a MySQL connection
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "ecommerce"
+});
+
+// Connect to MySQL
+db.connect((err) => {
+  if (err) {
+    console.error('Error connecting to database:', err);
+    return;
+  }
+  console.log('Connected to MySQL database'.bgGreen);
+});
+
 
 //rest object
 const app = express();
@@ -28,6 +48,8 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/subcategory", subcategoryRoutes);
+// Pass db connection to routes
+app.use("/api/v1/news", newsRoutes(db));
 
 //rest api
 app.get("/", (req, res) => {
@@ -44,4 +66,3 @@ app.listen(PORT, () => {
       .white
   );
 });
-  
