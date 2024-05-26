@@ -30,7 +30,7 @@ Axios (for making HTTP requests
 1.Installation
 
 Clone the repository
-git clone https://github.com/your-username/mern-ecommerce-app.git
+git clone https://github.com/DitjonZeq/E-commerce-app.git
 cd mern-ecommerce-app
 
 2.Install dependencies for the backend
