@@ -28,6 +28,7 @@ import SubCategoryProduct from "./pages/SubCategoryProduct";
 import CartPage from "./pages/CartPage";
 import AdminOrders from "./pages/Admin/AdminOrders";
 import CreateNews from "./pages/Admin/CreateNews";
+import News from "./pages/News";
 function App() {
   return (
     <>
@@ -36,6 +37,7 @@ function App() {
         <Route path="/product/:slug" element={<ProductDetails />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/subcategories" element={<SubCategories />} />
+        <Route path="/news" element={<News />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/category/:slug" element={<CategoryProduct />} />
         <Route path="/subcategory/:slug" element={<SubCategoryProduct />} />
